@@ -1,14 +1,15 @@
-libcint
+libcxxint
 =======
 
-version 4.0.7
-2020-11-23
+version: 0.9
+libc-version 4.0.7
+2021-01-05
 
 
-What is libcint
+What is libcxxint
 ---------------
-
-libcint is an open source library for analytical Gaussian integrals.
+libcxx is a port of libcint to cpp, to get it to work on more platforms.  
+libcint is an open source library for analytical Gaussian integrals.  
 It provides C/Fortran API to evaluate one-electron / two-electron
 integrals for Cartesian / real-spheric / spinor Gaussian type functions.
 

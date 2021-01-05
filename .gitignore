@@ -1,6 +1,8 @@
 *.so
 *.la
 *.o
+*.dll
+*.lib
 
 CMakeCache.txt
 CMakeFiles
@@ -9,3 +11,4 @@ cmake_install.cmake
 
 build
 out
+.vscode
