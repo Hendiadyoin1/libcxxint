@@ -33,8 +33,7 @@ if(QUADMATH_FOUND)
   set(HAVE_QUADMATH_H 1 CACHE INTERNAL "HAVE QUADMATH")
 endif()
 
-# set(OpenBLAS_DIR "C:\\src\\vcpkg\\installed\\x64-windows\\share\\openblas")
-find_package(OpenBLAS CONFIG REQUIRED)
+
 
 include(CheckFunctionExists)
 set(CMAKE_REQUIRED_INCLUDES math.h )
@@ -139,22 +138,17 @@ if(QUICK_TEST)
   set(RUN_QUICK_TEST --quick)
 endif()
 
-if(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)
-  message("using gnu compiler")
-  add_compile_options(-lm)
-elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL  MSVC)
-  message("using windows visual c compiler")
-  # one of these should be the same as -lm
-  #     documentation may say /Gy
-  #     stackoverflow said it may be /Im
-  add_compile_options(/Gy /Im) 
-else()
-  message("using untested Compiler: " ${CMAKE_CXX_COMPILER_ID})
-endif()
 
 if(ENABLE_STATIC)
   set(BUILD_SHARED_LIBS 0)
 endif()
+
+# if(BUILD_SHARED_LIBS)
+#   find_package(OpenBLAS CONFIG REQUIRED COMPONENTS shared)
+# else()
+#   find_package(OpenBLAS CONFIG REQUIRED COMPONENTS static)
+# endif()
+find_package(BLAS REQUIRED)
 
 add_library(cint ${cintSrc})
 set_target_properties(cint PROPERTIES
@@ -162,7 +156,9 @@ set_target_properties(cint PROPERTIES
   SOVERSION ${cint_SOVERSION}
   LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
-target_link_libraries(cint ${OpenBLAS_LIBRARIES})
+target_link_libraries(cint "-lm")
+message("using blas: ${BLAS_LIBRARIES}")
+target_link_libraries(cint ${BLAS_LIBRARIES})
 
 if(QUADMATH_FOUND)
   target_link_libraries(cint quadmath)
